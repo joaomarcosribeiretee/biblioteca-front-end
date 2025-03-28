@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserir Leitura</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Sua Leitura</h2>
+    <form id="leituraForm">
+        <label for="dataInicio">Quando começou a ler?</label>
+        <input type="date" id="dataInicio" required>
+
+        <label for="dataFim">Quando pretende terminar?</label>
+        <input type="date" id="dataFim" required>
+
+        <label for="status">Status</label>
+        <select id="status">
+            <option value="Em andamento">Em andamento</option>
+            <option value="Concluído">Concluído</option>
+            <option value="Leitura abandonada">Abandonado</option>
+        </select>
+
+        <label for="tempoRestante">Tempo para terminar (dias)</label>
+        <input type="text" id="tempoRestante" readonly>
+
+        <button type="button" onclick="calcularTempo()">Calcular Tempo</button>
+    </form>
+    
+    <button class="voltar" onclick="window.location.href='Menu.html'">Voltar ao Menu</button>
+</div>
+
+<script>
+
+    /*nao sei se eh aqui essa funcao???? */
+    function calcularTempo() {
+        const dataInicio = document.getElementById('dataInicio').value;
+        const dataFim = document.getElementById('dataFim').value;
+        const tempoRestanteInput = document.getElementById('tempoRestante');
+
+        if (dataInicio && dataFim) {
+            const inicio = new Date(dataInicio);
+            const fim = new Date(dataFim);
+            const diferenca = Math.ceil((fim - inicio) / (1000 * 60 * 60 * 24));
+
+            if (diferenca >= 0) {
+                tempoRestanteInput.value = `${diferenca} dias`;
+            } else {
+                tempoRestanteInput.value = "Data inválida!";
+            }
+        } else {
+            tempoRestanteInput.value = "";
+        }
+    }
+</script>
+
+</body>
+</html>
