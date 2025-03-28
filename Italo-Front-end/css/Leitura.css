@@ -20,18 +20,13 @@ body {
     transition: transform 0.3s ease;
 }
 
-.container:hover {
-    transform: translateY(-5px);
-}
-
-
 .voltar {
-    background-color: #851838;
+    background-color: #bb1e1e;
     margin-top: 10px;
 }
 
 .voltar:hover {
-    background-color: #218838;
+    background-color: #c35454;
 }
 
 
@@ -62,7 +57,7 @@ input:focus, select:focus {
 
 button {
     margin-top: 15px;
-    background-color: #2a919e;
+    background-color: #0a973e;
     color: white;
     padding: 12px;
     border: none;
@@ -75,6 +70,7 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #0a4617;
     transform: translateY(-2px);
 }
+

@@ -24,16 +24,45 @@ body {
     transform: translateY(-5px);
 }
 
-h2 {
-    margin-bottom: 20px;
-    color: #333;
-    font-weight: 600;
+
+.voltar {
+    background-color: #bb1e1e;
+    margin-top: 10px;
+}
+
+.voltar:hover {
+    background-color: #c35454;
 }
 
 
+
+/*livro*/
+form input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1.5px solid #e0e0e0;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
 button {
     margin-top: 15px;
-    background-color: #2a919e;
+    background-color: #0a973e;
     color: white;
     padding: 12px;
     border: none;
@@ -46,29 +75,6 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #0a4617;
     transform: translateY(-2px);
-}
-
-/* icone do menu*/  
-.title-book-icon {
-    position: absolute;
-    right: calc(50% - 200px);
-    width: 80px;
-    height: 90px;
-    object-fit: contain;
-}
-
-/*"Sua biblioteca"*/
-.biblioteca-header h2 {
-    margin-right: 10px;
-    font-size: 30px;
-}
-
-.biblioteca-header {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
 }
