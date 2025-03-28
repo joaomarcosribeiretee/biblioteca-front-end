@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserir Livro</title>
+    <link rel="stylesheet" href="../css/Leitura.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Inserir Livro</h2>
+    <form id="livroForm">
+        <label for="nomeLivro">Nome do Livro:</label>
+        <input type="text" id="nomeLivro" name="nomeLivro" placeholder="Digite o nome do livro" required>
+
+        <label for="autorLivro">Autor do Livro:</label>
+        <input type="text" id="autorLivro" name="autorLivro" placeholder="Digite o autor do livro" required>
+
+        <label for="quantidadePag"> Quantidade de Páginas:</label>
+        <input type="text" id ="qtdPag" name="qtdPag" placeholder="Digite a quantidade de páginas do livro" required>
+        
+        <button type="submit">Salvar Livro</button>
+    </form>
+
+    <button class="voltar" onclick="window.location.href='Menu.html'">Voltar ao Menu</button>
+</div>
+
+</body>
+</html>
