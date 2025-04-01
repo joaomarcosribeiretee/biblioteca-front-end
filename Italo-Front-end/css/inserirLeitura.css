@@ -78,3 +78,17 @@ button:hover {
     background-color: #0a4617;
     transform: translateY(-2px);
 }
+
+
+.sucesso {
+    color: #0a973e;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  .erro {
+    color: red;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
