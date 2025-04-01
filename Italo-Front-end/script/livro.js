@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("form-leitura");
 
-  // Torna o array global
-  window.leiturasRegistradas = [];
+  // Recupera leituras salvas ou inicializa um array vazio
+  window.leiturasRegistradas = JSON.parse(localStorage.getItem("leituras")) || [];
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -28,15 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
       dataMeta
     };
 
+    // Adiciona a nova leitura e salva no LocalStorage
     leiturasRegistradas.push(novaLeitura);
+    localStorage.setItem("leituras", JSON.stringify(leiturasRegistradas));
 
-    // popup dos crias
     alert("✅ Leitura registrada com sucesso!");
-
 
     form.reset();
 
-    // (Opcional) Log no console automático
     console.log("Leituras registradas:", leiturasRegistradas);
   });
 });
