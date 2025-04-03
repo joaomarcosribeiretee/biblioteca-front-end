@@ -38,4 +38,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Leituras registradas:", leiturasRegistradas);
   });
+
 });
