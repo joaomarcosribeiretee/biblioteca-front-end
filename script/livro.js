@@ -110,6 +110,3 @@ function alternarEmprestimo(index, dataInput) {
 }
 
 document.addEventListener('DOMContentLoaded', carregarLivros);
-
-
-
