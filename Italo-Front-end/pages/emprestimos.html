@@ -1,49 +1,35 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Emprestar ou Devolver Livros</title>
-
-</head>
 <body>
-<div class="container">
-    <h2>📚 Gerenciar Empréstimos</h2>
-    <div id="listaLivros"></div>
-    <button onclick="window.location.href='Menu.html'">🔙 Voltar ao Menu</button>
-</div>
+    <div class="container">
+      <h2>📦 Gerenciar Empréstimos</h2>
+      <link rel="stylesheet" href="../css/emprestimos.css" />
 
-    <script>
-    function carregarLivros() {
-        const lista = document.getElementById('listaLivros');
-        const livros = JSON.parse(localStorage.getItem('leituras')) || [];
-
-    if (livros.length === 0) {
-        lista.innerHTML = '<p>Nenhum livro registrado.</p>';
-        return;
-    }
-
-    lista.innerHTML = livros.map((livro, index) => `
+  
+      <div id="listaLivros"></div>
+  
+      <!-- Template invisível -->
+      <template id="livro-template">
         <div class="livro">
-            <strong>${livro.titulo}</strong> - ${livro.autor}<br>
-            Páginas: ${livro.paginaAtual} de ${livro.totalPaginas} <br>
-            Status: ${livro.emprestado ? '<span style="color:red;">Emprestado</span>' : '<span style="color:green;">Disponível</span>'}<br>
-            <button onclick="alternarEmprestimo(${index})">
-            ${livro.emprestado ? 'Devolver' : 'Emprestar'}
-            </button>
+          <strong class="titulo"></strong> - <span class="autor"></span><br />
+          Status: <span class="status"></span><br />
+          <div class="devolucao"></div>
+      
+          <div class="form-devolucao" style="margin-top:10px;">
+            <label for="data">📅 Data de devolução:</label><br />
+            <input type="date" class="input-data" />
+          </div>
+      
+          <button class="botao"></button>
         </div>
-    `).join('');
-    }
-
-    function alternarEmprestimo(index) {
-        const livros = JSON.parse(localStorage.getItem('leituras')) || [];
-        livros[index].emprestado = !livros[index].emprestado;
-        localStorage.setItem('leituras', JSON.stringify(livros));
-        carregarLivros();
-    }
-
-    carregarLivros();
-    </script>
+      </template>
+      
+      
+      
+      
+      
+  
+      <button onclick="window.location.href='Menu.html'">Voltar ao Menu</button>
+    </div>
+  
     <script src="../script/livro.js"></script>
-</body>
-</html>
+  </body>
+  

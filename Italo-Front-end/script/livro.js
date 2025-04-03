@@ -39,3 +39,77 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Leituras registradas:", leiturasRegistradas);
     });
   }); 
+
+  function carregarLivros() {
+    const lista = document.getElementById('listaLivros');
+    const template = document.getElementById('livro-template');
+    const leituras = JSON.parse(localStorage.getItem('leituras')) || [];
+  
+    lista.innerHTML = '';
+  
+    if (leituras.length === 0) {
+      lista.innerHTML = '<p>Nenhuma leitura registrada.</p>';
+      return;
+    }
+  
+    leituras.forEach((livro, index) => {
+      const clone = template.content.cloneNode(true);
+  
+      clone.querySelector('.titulo').textContent = livro.titulo;
+      clone.querySelector('.autor').textContent = livro.autor;
+  
+      const status = clone.querySelector('.status');
+      const botao = clone.querySelector('.botao');
+      const devolucao = clone.querySelector('.devolucao');
+      const inputData = clone.querySelector('.input-data');
+      const campoData = clone.querySelector('.form-devolucao');
+  
+      if (livro.emprestado) {
+        status.innerHTML = '<span style="color:red;">Emprestado</span>';
+        botao.textContent = 'Devolver';
+        campoData.style.display = 'none';
+  
+        if (livro.dataDevolucao) {
+          devolucao.innerHTML = `📅 Devolução até: <strong>${livro.dataDevolucao}</strong>`;
+        }
+  
+      } else {
+        status.innerHTML = '<span style="color:green;">Disponível</span>';
+        botao.textContent = 'Emprestar';
+        devolucao.innerHTML = '';
+      }
+  
+      botao.addEventListener('click', () => {
+        alternarEmprestimo(index, inputData?.value);
+      });
+  
+      lista.appendChild(clone);
+    });
+  }
+  
+  function alternarEmprestimo(index, dataInput) {
+    const leituras = JSON.parse(localStorage.getItem('leituras')) || [];
+    if (!leituras[index]) return;
+  
+    const livro = leituras[index];
+  
+    if (!livro.emprestado) {
+      if (!dataInput || isNaN(Date.parse(dataInput))) {
+        alert("❌ Selecione uma data de devolução válida.");
+        return;
+      }
+      livro.emprestado = true;
+      livro.dataDevolucao = dataInput;
+    } else {
+      livro.emprestado = false;
+      delete livro.dataDevolucao;
+    }
+  
+    localStorage.setItem('leituras', JSON.stringify(leituras));
+    carregarLivros();
+  }
+  
+  document.addEventListener('DOMContentLoaded', carregarLivros);
+  
+  
+  
