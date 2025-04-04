@@ -1,0 +1,77 @@
+/* Reset de estilos básicos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Estilização do título */
+  h1 {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  
+  /* Container dos livros */
+  #lista-livros {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Estilização de cada livro */
+  .livro {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .livro:hover {
+    transform: scale(1.02);
+  }
+  
+  .livro h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+  }
+  
+  .livro p {
+    font-size: 16px;
+    color: #555;
+    margin: 4px 0;
+  }
+  
+  /* Botão de Releitura */
+  .livro button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .livro button:hover {
+    background: #2980b9;
+  }
+  
