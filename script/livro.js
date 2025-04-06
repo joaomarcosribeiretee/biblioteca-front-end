@@ -111,6 +111,18 @@ function alternarEmprestimo(index, dataInput) {
 
 document.addEventListener('DOMContentLoaded', carregarLivros);
 
+function removerLivro(index) {
+  if (!confirm("Tem certeza que deseja remover este livro?")) return;
+
+  const leituras = JSON.parse(localStorage.getItem("leituras")) || [];
+
+  if (index >= 0 && index < leituras.length) {
+    leituras.splice(index, 1); // Remove 1 item na posição index
+    localStorage.setItem("leituras", JSON.stringify(leituras));
+    carregarLivros(); // Recarrega a lista de livros
+    alert("📕 Livro removido com sucesso.");
+  }
+}
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -193,6 +205,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
   
-
-
 });

@@ -8,11 +8,37 @@
 <body>
   <div class="container">
     <h2>📚 Leituras Registradas</h2>
-    
-    <div id="lista-leituras"></div>
+    <button onclick="listarTitulosSimples()">Ver Livros</button>
+    <div id="listaLivros"></div>
     
     <button class="voltar" onclick="window.location.href='inserirLeitura.html'">Voltar</button>
   </div>
-  <script src="../script/livro.js"></script>
+  <script>
+  function listarTitulosSimples() {
+    const lista = document.getElementById('listaLivros');
+    const leituras = JSON.parse(localStorage.getItem('leituras')) || [];
+
+    lista.innerHTML = '';
+
+    if (leituras.length === 0) {
+      lista.innerHTML = '<p>Nenhum livro cadastrado.</p>';
+      return;
+    }
+
+    const ul = document.createElement('ul');
+    ul.style.textAlign = 'left';
+    ul.style.listStyle = 'none';
+    ul.style.padding = '0';
+
+    leituras.forEach((livro) => {
+      const li = document.createElement('li');
+      li.textContent = `📖 ${livro.titulo}`;
+      li.style.marginBottom = '8px';
+      ul.appendChild(li);
+    });
+
+    lista.appendChild(ul);
+  }
+</script>
 </body>
 </html>
