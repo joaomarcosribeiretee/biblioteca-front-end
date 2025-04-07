@@ -13,11 +13,17 @@ function getLivrosSalvos() {
     const livrosSalvos = getLivrosSalvos();
   
     livrosSalvos.forEach((livro, index) => {
-      const option = document.createElement("option");
-      option.value = index;
-      option.textContent = livro.titulo;
-      seletorLivros.appendChild(option);
+      const finalizado = livro.paginaAtual === livro.totalPaginas;
+      const semDatas = !livro.dataInicio || !livro.dataMeta;
+    
+      if (!finalizado && !semDatas) {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = livro.titulo;
+        seletorLivros.appendChild(option);
+      }
     });
+    
   });
   
   function verificarMetaPrincipal() {
