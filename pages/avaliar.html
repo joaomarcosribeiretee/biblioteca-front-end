@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Avaliar Livro</title>
+  <link rel="stylesheet" href="../css/avaliar.css">
+</head>
+<body>
+    <div class="container">
+      <h2>Avaliar um Livro</h2>
+      <form id="formAvaliacao">
+        <label for="livroSelecionado">Livro:</label>
+        <select id="livroSelecionado"></select>
+  
+        <label for="nota">Nota (0 a 10):</label>
+        <input type="number" id="nota" min="0" max="10" required>
+
+  
+        <button type="submit">Enviar Avaliação</button>
+        <button type="button" class="voltar" onclick="window.location.href='avaliacao.html'">Voltar</button>
+      </form>
+    </div>
+    <script src="../script/avaliar.js"></script>
+  </body>  
+</html>
