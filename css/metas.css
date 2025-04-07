@@ -1,0 +1,111 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 95vh;
+  }
+  
+  h2, h3 {
+    color: #0a973e;
+    text-align: center;
+  }
+  
+  section {
+    margin-bottom: 25px;
+  }
+  
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 10px;
+    color: #333;
+  }
+
+/* Para TODOS os inputs exceto number */
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1.5px solid #e0e0e0;
+  transition: border-color 0.3s ease;
+  font-size: 16px;
+}
+
+/* Para input do tipo number */
+input[type="number"] {
+  width: 95%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1.5px solid #e0e0e0;
+  transition: border-color 0.3s ease;
+  font-size: 16px;
+}
+  
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+  }
+  
+  
+  button {
+    margin-top: 15px;
+    background-color: #0a973e;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #0a4617;
+    transform: translateY(-2px);
+  }
+  
+  button.excluir {
+    background-color: #bb1e1e;
+  }
+  
+  button.excluir:hover {
+    background-color: #c35454;
+  }
+  
+  button.voltar {
+    background-color: #6c757d;
+  }
+  
+  button.voltar:hover {
+    background-color: #5a6268;
+  }
+  
+  #resultado-meta-principal,
+  #resultado-meta-diaria {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+  }
+  
