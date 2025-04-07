@@ -113,3 +113,23 @@ document.addEventListener('DOMContentLoaded', carregarLivros);
 
 
 
+document.addEventListener("DOMContentLoaded", () => {
+  const select = document.getElementById("livroSelecionado");
+  const leituras = JSON.parse(localStorage.getItem("leituras")) || [];
+
+  if (leituras.length === 0) {
+    const option = document.createElement("option");
+    option.textContent = "Nenhuma leitura encontrada";
+    option.disabled = true;
+    option.selected = true;
+    select.appendChild(option);
+    return;
+  }
+
+  leituras.forEach((livro, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = `${livro.titulo}`;
+    select.appendChild(option);
+  });
+});
