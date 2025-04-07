@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Iniciar Leitura</title>
-  <link rel="stylesheet" href="../css/inserirLeitura.css">
+  <link rel="stylesheet" href="../css/inserirleitura.css">
 </head>
 <body>
   <div class="container">
@@ -22,11 +22,16 @@
       <label for="paginaAtual">Página Atual:</label>
       <input type="number" id="paginaAtual" required>
 
-      <label for="dataInicio">📅 Data de Início:</label>
-      <input type="date" id="dataInicio" required>
+      <!-- Campo oculto para o status -->
+      <input type="hidden" id="status" value="em andamento">
 
-      <label for="dataMeta">🎯 Data Meta para Terminar:</label>
-      <input type="date" id="dataMeta" required>
+      <div id="datas-container">
+        <label for="dataInicio">📅 Data de Início:</label>
+        <input type="date" id="dataInicio">
+
+        <label for="dataMeta">🎯 Data Meta para Terminar:</label>
+        <input type="date" id="dataMeta">
+      </div>
 
       <button type="submit">Registrar Leitura</button>
     </form>
