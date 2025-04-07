@@ -165,14 +165,3 @@ document.addEventListener("DOMContentLoaded", () => {
       listaLeituras.appendChild(livroCard);
     });
   }
-
-  // Configura botão de atualizar lista (se existir na página)
-  const atualizarBtn = document.getElementById("atualizar-lista");
-  if (atualizarBtn) {
-    // Carrega leituras ao abrir a página
-    carregarLeituras();
-    
-    // Configura evento do botão
-    atualizarBtn.addEventListener("click", carregarLeituras);
-  }
-});
