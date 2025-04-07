@@ -1,135 +1,167 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("form-leitura");
+  // Elementos do formulário de adicionar leitura
+  const formAdicionar = document.getElementById("form-leitura");
+  // Elementos do formulário de remover livro
+  const formRemover = document.getElementById("form-remover");
+  // Elementos para controle das datas
+  const datasContainer = document.getElementById("datas-container");
+  const paginaAtualInput = document.getElementById("paginaAtual");
+  const paginasInput = document.getElementById("paginas");
+  const statusInput = document.getElementById("status");
 
-  // Recupera leituras salvas ou inicializa um array vazio
+  // Recupera leituras do localStorage ou inicializa array vazio
   window.leiturasRegistradas = JSON.parse(localStorage.getItem("leituras")) || [];
   
-  form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const titulo = document.getElementById("titulo").value.trim();
-  const autor = document.getElementById("autor").value.trim();
-  const totalPaginas = parseInt(document.getElementById("paginas").value);
-  const paginaAtual = parseInt(document.getElementById("paginaAtual").value);
-  const dataInicio = document.getElementById("dataInicio").value;
-  const dataMeta = document.getElementById("dataMeta").value;
-
-  if (paginaAtual > totalPaginas) {
-      alert("❌ Erro: a página atual não pode ser maior que o total de páginas.");
-      return;
+  // Função para mostrar/esconder campos de data conforme progresso
+  function verificarCamposData() {
+    const paginaAtual = parseInt(paginaAtualInput.value);
+    const totalPaginas = parseInt(paginasInput.value);
+    
+    if (isNaN(paginaAtual) || isNaN(totalPaginas)) return;
+    
+    if (paginaAtual < totalPaginas) {
+      datasContainer.style.display = "block";
+      document.getElementById("dataInicio").required = true;
+      document.getElementById("dataMeta").required = true;
+      statusInput.value = "em andamento";
+    } else {
+      datasContainer.style.display = "none";
+      document.getElementById("dataInicio").required = false;
+      document.getElementById("dataMeta").required = false;
+      statusInput.value = "finalizado";
+    }
   }
 
-  const novaLeitura = {
-      titulo,
-      autor,
-      totalPaginas,
-      paginaAtual,
-      dataInicio,
-      dataMeta
-  };
-
-    // Adiciona a nova leitura e salva no LocalStorage
-  leiturasRegistradas.push(novaLeitura);
-  localStorage.setItem("leituras", JSON.stringify(leiturasRegistradas));
-
-  alert("✅ Leitura registrada com sucesso!");
-
-  form.reset();
-
-  console.log("Leituras registradas:", leiturasRegistradas);
-  });
-}); 
-
-function carregarLivros() {
-  const lista = document.getElementById('listaLivros');
-  const template = document.getElementById('livro-template');
-  const leituras = JSON.parse(localStorage.getItem('leituras')) || [];
-
-  lista.innerHTML = '';
-
-  if (leituras.length === 0) {
-    lista.innerHTML = '<p>Nenhuma leitura registrada.</p>';
-    return;
+  // Event listeners para campos de páginas
+  if (paginaAtualInput && paginasInput) {
+    paginaAtualInput.addEventListener("input", verificarCamposData);
+    paginasInput.addEventListener("input", verificarCamposData);
   }
 
-  leituras.forEach((livro, index) => {
-    const clone = template.content.cloneNode(true);
+  // Configura formulário de adicionar leitura
+  if (formAdicionar) {
+    formAdicionar.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    clone.querySelector('.titulo').textContent = livro.titulo;
-    clone.querySelector('.autor').textContent = livro.autor;
+      const titulo = document.getElementById("titulo").value.trim();
+      const autor = document.getElementById("autor").value.trim();
+      const totalPaginas = parseInt(document.getElementById("paginas").value);
+      const paginaAtual = parseInt(document.getElementById("paginaAtual").value);
+      const dataInicio = document.getElementById("dataInicio").value;
+      const dataMeta = document.getElementById("dataMeta").value;
+      const status = document.getElementById("status").value;
 
-    const status = clone.querySelector('.status');
-    const botao = clone.querySelector('.botao');
-    const devolucao = clone.querySelector('.devolucao');
-    const inputData = clone.querySelector('.input-data');
-    const campoData = clone.querySelector('.form-devolucao');
-
-    if (livro.emprestado) {
-      status.innerHTML = '<span style="color:red;">Emprestado</span>';
-      botao.textContent = 'Devolver';
-      campoData.style.display = 'none';
-
-      if (livro.dataDevolucao) {
-        devolucao.innerHTML = `📅 Devolução até: <strong>${livro.dataDevolucao}</strong>`;
+      // Validação
+      if (paginaAtual > totalPaginas) {
+        alert("❌ Erro: a página atual não pode ser maior que o total de páginas.");
+        return;
       }
 
-    } else {
-      status.innerHTML = '<span style="color:green;">Disponível</span>';
-      botao.textContent = 'Emprestar';
-      devolucao.innerHTML = '';
-    }
+      // Cria objeto da nova leitura
+      const novaLeitura = {
+        titulo,
+        autor,
+        totalPaginas,
+        paginaAtual,
+        status
+      };
 
-    botao.addEventListener('click', () => {
-      alternarEmprestimo(index, inputData?.value);
+      // Adiciona datas apenas se livro não estiver completo
+      if (paginaAtual < totalPaginas) {
+        novaLeitura.dataInicio = dataInicio;
+        novaLeitura.dataMeta = dataMeta;
+      }
+
+      // Adiciona e salva no localStorage
+      leiturasRegistradas.push(novaLeitura);
+      localStorage.setItem("leituras", JSON.stringify(leiturasRegistradas));
+
+      alert(`✅ Leitura registrada com sucesso!\nStatus: ${status}`);
+      formAdicionar.reset();
+      if (datasContainer) datasContainer.style.display = "none";
     });
+  }
 
-    lista.appendChild(clone);
-  });
-}
+  // Configura formulário de remover livro
+  if (formRemover) {
+    const resultadoDiv = document.getElementById("resultado");
+    
+    formRemover.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-function alternarEmprestimo(index, dataInput) {
-  const leituras = JSON.parse(localStorage.getItem('leituras')) || [];
-  if (!leituras[index]) return;
+      const titulo = document.getElementById("tituloRemover").value.trim();
+      const autor = document.getElementById("autorRemover").value.trim();
 
-  const livro = leituras[index];
+      if (!titulo || !autor) {
+        resultadoDiv.innerHTML = "<p class='error'>❌ Por favor, preencha ambos os campos: título e autor.</p>";
+        return;
+      }
 
-  if (!livro.emprestado) {
-    if (!dataInput || isNaN(Date.parse(dataInput))) {
-      alert("❌ Selecione uma data de devolução válida.");
+      // Busca livro para remover
+      const index = leiturasRegistradas.findIndex(
+        livro => livro.titulo.toLowerCase() === titulo.toLowerCase() && 
+                 livro.autor.toLowerCase() === autor.toLowerCase()
+      );
+
+      if (index === -1) {
+        resultadoDiv.innerHTML = "<p class='error'>❌ Livro não encontrado. Verifique o título e autor.</p>";
+        return;
+      }
+
+      // Remove e atualiza localStorage
+      leiturasRegistradas.splice(index, 1);
+      localStorage.setItem("leituras", JSON.stringify(leiturasRegistradas));
+
+      resultadoDiv.innerHTML = "<p class='success'>✅ Livro removido com sucesso!</p>";
+      
+      // Limpa formulário após 2 segundos
+      setTimeout(() => {
+        formRemover.reset();
+        resultadoDiv.innerHTML = "";
+      }, 2000);
+    });
+  }
+
+  // Função para carregar e exibir a lista de leituras
+  function carregarLeituras() {
+    const listaLeituras = document.getElementById("lista-leituras");
+    
+    // Verifica se está na página de visualização
+    if (!listaLeituras) return;
+
+    // Limpa lista antes de recarregar
+    listaLeituras.innerHTML = "";
+
+    // Mensagem para lista vazia
+    if (leiturasRegistradas.length === 0) {
+      listaLeituras.innerHTML = "<p class='empty-list'>📚 Nenhum livro registrado ainda.</p>";
       return;
     }
-    livro.emprestado = true;
-    livro.dataDevolucao = dataInput;
-  } else {
-    livro.emprestado = false;
-    delete livro.dataDevolucao;
+
+    // Ordena por status (em andamento primeiro) e depois por título
+    leiturasRegistradas.sort((a, b) => {
+      if (a.status === "em andamento" && b.status !== "em andamento") return -1;
+      if (a.status !== "em andamento" && b.status === "em andamento") return 1;
+      return a.titulo.localeCompare(b.titulo);
+    });
+
+    // Cria cards para cada livro
+    leiturasRegistradas.forEach(livro => {
+      const livroCard = document.createElement("div");
+      livroCard.className = "livro-card";
+      
+      const statusClass = livro.status === "finalizado" ? "status-finalizado" : "status-andamento";
+      const progresso = livro.status === "finalizado" ? 
+        "✅ Concluído" : 
+        `📖 ${livro.paginaAtual}/${livro.totalPaginas} páginas`;
+      
+      livroCard.innerHTML = `
+        <h3>${livro.titulo}</h3>
+        <p><strong>Autor:</strong> ${livro.autor}</p>
+        <p><strong>Status:</strong> <span class="${statusClass}">${livro.status}</span></p>
+        <p><strong>Progresso:</strong> ${progresso}</p>
+      `;
+      
+      listaLeituras.appendChild(livroCard);
+    });
   }
-
-  localStorage.setItem('leituras', JSON.stringify(leituras));
-  carregarLivros();
-}
-
-document.addEventListener('DOMContentLoaded', carregarLivros);
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const select = document.getElementById("livroSelecionado");
-  const leituras = JSON.parse(localStorage.getItem("leituras")) || [];
-
-  if (leituras.length === 0) {
-    const option = document.createElement("option");
-    option.textContent = "Nenhuma leitura encontrada";
-    option.disabled = true;
-    option.selected = true;
-    select.appendChild(option);
-    return;
-  }
-
-  leituras.forEach((livro, index) => {
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = `${livro.titulo}`;
-    select.appendChild(option);
-  });
-});

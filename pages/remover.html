@@ -1,0 +1,31 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Remover Livro</title>
+  <link rel="stylesheet" href="../css/inserirleitura.css">
+</head>
+<body>
+  <div class="container">
+    <h2>✖️ Remover Livro</h2>
+
+    <form id="form-remover">
+      <label for="tituloRemover">Título do Livro:</label>
+      <input type="text" id="tituloRemover" required>
+
+      <label for="autorRemover">Autor:</label>
+      <input type="text" id="autorRemover" required>
+
+      <button type="submit">Remover Livro</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <button class="voltar" onclick="window.location.href='inserirleitura.html'">Voltar</button>
+  </div>
+
+  <script src="../script/livro.js"></script>
+</body>
+</html>
