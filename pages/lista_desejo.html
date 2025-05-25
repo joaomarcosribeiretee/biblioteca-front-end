@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Desejos</title>
+    <link rel="stylesheet" href="../css/lista_desejo.css">
+</head>
+<body>
+    <div class="container">
+        <h2>❤️ Lista de Desejos</h2>
+
+        <!-- Formulário para Adicionar à Lista -->
+        <section class="form-section">
+            <h3>Adicionar Livro</h3>
+            <form id="addDesejoForm">
+                <label for="nomeLivroDesejo">Nome do Livro:</label>
+                <input type="text" id="nomeLivroDesejo" name="nomeLivroDesejo" required>
+
+                <label for="nomeAutorDesejo">Nome do Autor:</label>
+                <input type="text" id="nomeAutorDesejo" name="nomeAutorDesejo" required>
+
+                <label for="prioridade">Prioridade:</label>
+                <select id="prioridade" name="prioridade" required>
+                    <option value="alta">Alta</option>
+                    <option value="media" selected>Média</option>
+                    <option value="baixa">Baixa</option>
+                </select>
+
+                <button type="submit">Adicionar à Lista</button>
+            </form>
+        </section>
+
+        <!-- Formulário para Remover -->
+        <section class="form-section">
+            <h3>Remover Livro</h3>
+            <form id="removerDesejoForm">
+                <label for="nomeLivroRemover">Nome do Livro:</label>
+                <input type="text" id="nomeLivroRemover" name="nomeLivroRemover" required>
+
+                <button type="submit" class="remover">Remover da Lista</button>
+            </form>
+        </section>
+
+        <!-- Lista de Desejos -->
+       
+
+           <section class="form-section">
+            <h3>Lista de Desejos</h3>
+            <button onclick="window.location.href='visualizar_lista.html'">Ir para Visualização</button>
+        </section>
+
+        <!-- Botão Voltar -->
+        <button class="voltar" onclick="window.location.href='Menu.html'">⬅️ Voltar ao Menu</button>
+    </div>
+
+    <script src="../script/lista_desejo.js"></script>
+</body>
+</html>

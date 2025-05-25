@@ -3,33 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const formAdicionar = document.getElementById("form-leitura");
   // Elementos do formulário de remover livro
   const formRemover = document.getElementById("form-remover");
-  // Elementos para controle das datas
-  const datasContainer = document.getElementById("datas-container");
   const paginaAtualInput = document.getElementById("paginaAtual");
   const paginasInput = document.getElementById("paginas");
   const statusInput = document.getElementById("status");
 
-  // Recupera leituras do localStorage ou inicializa array vazio
-  window.leiturasRegistradas = JSON.parse(localStorage.getItem("leituras")) || [];
-  
   // Função para mostrar/esconder campos de data conforme progresso
-  function verificarCamposData() {
+  async function verificarCamposData() {
     const paginaAtual = parseInt(paginaAtualInput.value);
     const totalPaginas = parseInt(paginasInput.value);
-    
+
     if (isNaN(paginaAtual) || isNaN(totalPaginas)) return;
-    
-    if (paginaAtual < totalPaginas) {
-      datasContainer.style.display = "block";
-      document.getElementById("dataInicio").required = true;
-      document.getElementById("dataMeta").required = true;
-      statusInput.value = "em andamento";
-    } else {
-      datasContainer.style.display = "none";
-      document.getElementById("dataInicio").required = false;
-      document.getElementById("dataMeta").required = false;
-      statusInput.value = "finalizado";
-    }
   }
 
   // Event listeners para campos de páginas
@@ -40,53 +23,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Configura formulário de adicionar leitura
   if (formAdicionar) {
-    formAdicionar.addEventListener("submit", function (e) {
+    formAdicionar.addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const titulo = document.getElementById("titulo").value.trim();
       const autor = document.getElementById("autor").value.trim();
       const totalPaginas = parseInt(document.getElementById("paginas").value);
       const paginaAtual = parseInt(document.getElementById("paginaAtual").value);
-      const dataInicio = document.getElementById("dataInicio").value;
-      const dataMeta = document.getElementById("dataMeta").value;
-      const status = document.getElementById("status").value;
+      let status = document.getElementById("status").value;
 
-      // Validação
       if (paginaAtual > totalPaginas) {
         alert("❌ Erro: a página atual não pode ser maior que o total de páginas.");
         return;
       }
 
-      // Cria objeto da nova leitura
-      const novaLeitura = {
-        titulo,
-        autor,
-        totalPaginas,
-        paginaAtual,
-        status
-      };
+      try {
+        const resposta = await fetch("http://localhost:8080/addLeitura", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            livro: {
+              nomeAutor: autor,
+              nomeLivro: titulo,
+              numPaginasLivro: totalPaginas
+            },
+            leitura: {
+              paginasLidas: paginaAtual
+            }
+          })
+        });
 
-      // Adiciona datas apenas se livro não estiver completo
-      if (paginaAtual < totalPaginas) {
-        novaLeitura.dataInicio = dataInicio;
-        novaLeitura.dataMeta = dataMeta;
+        const dados = await resposta.json();
+
+        if (dados.status !== "OK") {
+          alert("❌ Erro ao registrar leitura.");
+          return;
+        }
+
+        if (dados.statusLeitura === "Finalizado") status = 'finalizado';
+        else if (dados.statusLeitura === "NaoIniciado") status = 'naoIniciado';
+        else status = 'emAndamento';
+
+        const novaLeitura = {
+          titulo,
+          autor,
+          totalPaginas,
+          paginaAtual,
+          status
+        };
+
+        localStorage.setItem("leitura", JSON.stringify(novaLeitura));
+
+        alert(`✅ Leitura registrada com sucesso!\nStatus: ${status}`);
+
+        formAdicionar.reset();
+
+        if (status === 'emAndamento') {
+          window.location.href = 'metasPrincipais.html';
+        } else {
+          window.location.href = 'Menu.html';
+        }
+
+      } catch (erro) {
+        console.error("Erro:", erro);
+        alert("❌ Erro ao conectar com o backend.");
       }
-
-      // Adiciona e salva no localStorage
-      leiturasRegistradas.push(novaLeitura);
-      localStorage.setItem("leituras", JSON.stringify(leiturasRegistradas));
-
-      alert(`✅ Leitura registrada com sucesso!\nStatus: ${status}`);
-      formAdicionar.reset();
-      if (datasContainer) datasContainer.style.display = "none";
     });
   }
 
   // Configura formulário de remover livro
   if (formRemover) {
     const resultadoDiv = document.getElementById("resultado");
-    
-    formRemover.addEventListener("submit", function (e) {
+
+    formRemover.addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const titulo = document.getElementById("tituloRemover").value.trim();
@@ -97,82 +108,119 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Busca livro para remover
-      const index = leiturasRegistradas.findIndex(
-        livro => livro.titulo.toLowerCase() === titulo.toLowerCase() && 
-                 livro.autor.toLowerCase() === autor.toLowerCase()
-      );
+      try {
+        const resposta = await fetch("http://localhost:8080/delete", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            nomeAutor: autor,
+            nomeLivro: titulo
+          })
+        });
 
-      if (index === -1) {
-        resultadoDiv.innerHTML = "<p class='error'>❌ Livro não encontrado. Verifique o título e autor.</p>";
+        const dados = await resposta.json();
+
+        if (dados.status !== "OK") {
+          alert("❌ Erro ao deletar livro.");
+          return;
+        }
+
+        alert(`✅ Livro deletado com sucesso!\n`);
+        window.location.href = 'Menu.html';
+
+      } catch (erro) {
+        console.error("Erro:", erro);
+        alert("❌ Erro ao conectar com o backend.");
+      }
+    });
+  }
+  
+  // Função para carregar e exibir a lista de leituras
+
+ document.getElementById("botaoLeitura").addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    const listaLeituras = document.getElementById("lista-leituras");
+
+    alert("oi");
+    //if (!listaLeituras) return;
+    alert("oi2");
+
+    try {
+      const resposta = await fetch("http://localhost:8080/getListLeitura", {
+        method: "GET"
+      });
+
+      const leituras = await resposta.json();
+
+      alert(JSON.stringify(leituras));
+      
+      if (leituras.status !== "OK") {
+        alert("❌ Erro ao mostrar.");
         return;
       }
 
-      // Remove e atualiza localStorage
-      leiturasRegistradas.splice(index, 1);
-      localStorage.setItem("leituras", JSON.stringify(leiturasRegistradas));
 
-      resultadoDiv.innerHTML = "<p class='success'>✅ Livro removido com sucesso!</p>";
-      
-      // Limpa formulário após 2 segundos
-      setTimeout(() => {
-        formRemover.reset();
-        resultadoDiv.innerHTML = "";
-      }, 2000);
-    });
-  }
+      if (!leituras.livros) {
+        alert("❌ leituras.livros está indefinido ou vazio.");
+        return;
+      }
 
-  // Função para carregar e exibir a lista de leituras
-  function carregarLeituras() {
-    const listaLeituras = document.getElementById("lista-leituras");
+      const livros = leituras.livros;
     
-    // Verifica se está na página de visualização
-    if (!listaLeituras) return;
+      alert(JSON.stringify(livros));
 
-    // Limpa lista antes de recarregar
-    listaLeituras.innerHTML = "";
 
-    // Mensagem para lista vazia
-    if (leiturasRegistradas.length === 0) {
-      listaLeituras.innerHTML = "<p class='empty-list'>📚 Nenhum livro registrado ainda.</p>";
-      return;
+      //listaLeituras.innerHTML = "";
+
+      if (livros.length === 0) {
+        listaLeituras.innerHTML = "<p class='empty-list'>📚 Nenhum livro registrado ainda.</p>";
+        return;
+      }
+
+      livros.forEach(livro => {
+        const livroCard = document.createElement("div");
+        livroCard.className = "livro-card";
+
+        const statusClass = livro.status === "finalizado" ? "status-finalizado" : "status-andamento";
+        const progresso = livro.status === "finalizado"
+          ? "✅ Concluído"
+          : `📖 ${livro.paginaAtual}/${livro.qtdPaginas} páginas`;
+
+        livroCard.innerHTML = `
+          <h3>${livro.nome}</h3>
+          <p><strong>Autor:</strong> ${livro.autor}</p>
+          <p><strong>Status:</strong> <span class="${statusClass}">${livro.status}</span></p>
+          <p><strong>Progresso:</strong> ${progresso}</p>
+        `;
+
+        window.location.href='visualizar-leituras.html'
+
+        listaLeituras.appendChild(livroCard);
+      });
+
+      
+
+    } catch (erro) {
+      console.error("Erro:", erro);
+      alert("❌ Erro ao conectar com o backend.");
     }
 
-    // Ordena por status (em andamento primeiro) e depois por título
-    leiturasRegistradas.sort((a, b) => {
-      if (a.status === "em andamento" && b.status !== "em andamento") return -1;
-      if (a.status !== "em andamento" && b.status === "em andamento") return 1;
-      return a.titulo.localeCompare(b.titulo);
-    });
+    
+  });
 
-    // Cria cards para cada livro
-    leiturasRegistradas.forEach(livro => {
-      const livroCard = document.createElement("div");
-      livroCard.className = "livro-card";
-      
-      const statusClass = livro.status === "finalizado" ? "status-finalizado" : "status-andamento";
-      const progresso = livro.status === "finalizado" ? 
-        "✅ Concluído" : 
-        `📖 ${livro.paginaAtual}/${livro.totalPaginas} páginas`;
-      
-      livroCard.innerHTML = `
-        <h3>${livro.titulo}</h3>
-        <p><strong>Autor:</strong> ${livro.autor}</p>
-        <p><strong>Status:</strong> <span class="${statusClass}">${livro.status}</span></p>
-        <p><strong>Progresso:</strong> ${progresso}</p>
-      `;
-      
-      listaLeituras.appendChild(livroCard);
-    });
-  }
+  //async function carregarLeituras() {
+  //  const listaLeituras = document.getElementById("lista-leituras");
+
+    
+  //}
 
   // Configura botão de atualizar lista (se existir na página)
-  const atualizarBtn = document.getElementById("atualizar-lista");
-  if (atualizarBtn) {
-    // Carrega leituras ao abrir a página
-    carregarLeituras();
-    
-    // Configura evento do botão
-    atualizarBtn.addEventListener("click", carregarLeituras);
-  }
+  //const atualizarBtn = document.getElementById("atualizar-lista");
+  //if (atualizarBtn) {
+  //  carregarLeituras();
+  //  atualizarBtn.addEventListener("click", carregarLeituras);
+  //}
 });

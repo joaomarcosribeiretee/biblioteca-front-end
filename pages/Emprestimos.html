@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Empréstimo</title>
+    <link rel="stylesheet" href="../css/emprestimos.css">
+</head>
+<body>
+    <div class="container">
+        <h2>📦 Adicionar Empréstimo</h2>
+
+        <!-- Formulário para Adicionar Empréstimo -->
+        <section class="form-section">
+            <form id="addEmprestimoForm">
+                <label for="nomeLivro">Nome do Livro:</label>
+                <input type="text" id="nomeLivro" name="nomeLivro" required>
+
+                <label for="nomeAutor">Nome do Autor:</label>
+                <input type="text" id="nomeAutor" name="nomeAutor" required>
+
+                <label for="dataInicio">Data de Início:</label>
+                <input type="date" id="dataInicio" name="dataInicio" required>
+
+                <label for="dataPrevista">Data Prevista de Devolução:</label>
+                <input type="date" id="dataPrevista" name="dataPrevista" required>
+
+                <button type="submit">Adicionar</button>
+            </form>
+        </section>
+
+        <!-- Botão para Listar Empréstimos -->
+        <section class="form-section">
+            <h3>Listar Empréstimos</h3>
+            <button id="listarEmprestimosBtn">Mostrar Empréstimos</button>
+            <pre id="listaEmprestimos"></pre>
+        </section>
+
+        <!-- Botão para ir para Devolução -->
+        <button onclick="window.location.href='devolver.html'">Ir para Devolução</button>
+        
+        <button class="voltar" onclick="window.location.href='Menu.html'">⬅️ Voltar ao Menu</button>
+    </div>
+
+    <script src="../script/emprestimos.js"></script>
+</body>
+</html>

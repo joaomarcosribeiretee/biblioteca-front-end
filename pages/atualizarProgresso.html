@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Atualizar Progresso</title>
+  <link rel="stylesheet" href="../css/atualizarProgresso.css">
+  <script defer src="/script/atualizarProgresso.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>📈 Atualizar Progresso de Leitura</h2>
+    <form id="formAtualizar">
+      <label for="nomeLivro">📚 Nome do Livro:</label>
+      <input type="text" id="nomeLivro" name="nomeLivro" required>
+
+      <label for="autor">✍️ Nome do Autor:</label>
+      <input type="text" id="autor" name="autor" required>
+
+      <label for="novaPagina">📄 Nova Página Atual:</label>
+      <input type="number" id="novaPagina" name="novaPagina" min="1" required>
+
+      <button type="submit" id="botaoAtualizar">✅ Atualizar</button>
+    </form>
+    <button class="voltar" onclick="window.location.href='inserirleitura.html'">Voltar</button>
+  </div>
+</body>
+</html>

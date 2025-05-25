@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 90%;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #009846;
+}
+
+#listaDesejos {
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* Estilos visuais para destacar prioridades */
+.prioridade-alta {
+    color: #d32f2f; /* Vermelho forte */
+    font-weight: bold;
+}
+
+.prioridade-media {
+    color: #f9a825; /* Amarelo escuro */
+}
+
+.prioridade-baixa {
+    color: #388e3c; /* Verde escuro */
+}
+
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #c62828;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #b71c1c;
+}

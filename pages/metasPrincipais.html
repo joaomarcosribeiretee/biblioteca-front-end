@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <script src="../script/enviarMetas.js" defer></script>
+  <meta charset="UTF-8">
+  <title>Metas Principais</title>
+  <link rel="stylesheet" href="../css/inserirleitura.css">
+</head>
+<body>
+  <div class="container">
+    <h2>📘 Metas Principais</h2>
+
+    <form id="form-leitura">
+      
+        <label for="dataInicio">📅 Data de Início:</label>
+        <input type="date" id="dataInicio">
+
+        <label for="dataMeta">🎯 Data Meta para Terminar:</label>
+        <input type="date" id="dataMeta">
+     
+      <button type="submit" id="botao">Registrar Meta</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <button class="voltar" onclick="window.location.href='InserirLeitura.html'">Voltar</button>
+  </div>
+
+  <script src="../script/livro.js"></script>
+</body>
+</html>

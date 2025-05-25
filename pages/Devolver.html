@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devolver Empréstimo</title>
+    <link rel="stylesheet" href="../css/emprestimos.css">
+</head>
+<body>
+    <div class="container">
+        <h2>📦 Devolver Empréstimo</h2>
+
+        <!-- Formulário para Devolução -->
+        <section class="form-section">
+            <form id="devolverEmprestimoForm">
+                <label for="nomeLivroDev">Nome do Livro:</label>
+                <input type="text" id="nomeLivroDev" name="nomeLivroDev" required>
+
+                <label for="nomeAutorDev">Nome do Autor:</label>
+                <input type="text" id="nomeAutorDev" name="nomeAutorDev" required>
+
+                <button type="submit">Devolver</button>
+            </form>
+        </section>
+
+        <button onclick="window.location.href='emprestimos.html'">Voltar para Empréstimos</button>
+        <button class="voltar" onclick="window.location.href='Menu.html'">⬅️ Voltar ao Menu</button>
+    </div>
+
+    <script src="../script/emprestimos.js"></script>
+</body>
+</html>
